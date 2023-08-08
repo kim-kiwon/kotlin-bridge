@@ -1,6 +1,6 @@
 ## Kotlin-Bridge
 ### Todo
-- [ ] Add making answer bridge
+- [x] Add making answer bridge
 - [ ] Add bridge game's move with answer bridge 
 - [ ] Add bridge game's retry that reset move's bridge
 - [ ] Add output view
