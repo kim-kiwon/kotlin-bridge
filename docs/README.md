@@ -4,7 +4,7 @@
 - [x] Add bridge game's move with answer bridge 
 - [x] Add bridge game's retry that reset move's bridge
 - [ ] Add output view
-- [ ] Add input view
+- [x] Add input view
 
 ### 책임 분배
 - InputView
