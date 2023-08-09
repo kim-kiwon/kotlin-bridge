@@ -6,7 +6,8 @@ package bridge
 class BridgeGame(private val answerBridge: List<String>) {
     val userBridge = mutableListOf<String>()
     val moveSuccess = mutableListOf<Boolean>()
-    var userLocate = 0
+    var isQuit = false
+    var userLocation = 0
     var tryCount = 1
 
     /**
@@ -16,12 +17,12 @@ class BridgeGame(private val answerBridge: List<String>) {
      * 이동을 위해 필요한 메서드의 반환 타입(return type), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     fun move(moving: String): Boolean {
-        val canMove = (answerBridge[userLocate] == moving)
+        val canMove = (answerBridge[userLocation] == moving)
 
         userBridge.add(moving)
         moveSuccess.add(canMove)
 
-        if (canMove) userLocate++
+        if (canMove) userLocation++
 
         return canMove
     }
@@ -35,7 +36,7 @@ class BridgeGame(private val answerBridge: List<String>) {
     fun retry() {
         userBridge.clear()
         moveSuccess.clear()
-        userLocate = 0
+        userLocation = 0
         tryCount++
     }
 
@@ -47,13 +48,8 @@ class BridgeGame(private val answerBridge: List<String>) {
             upSb.append("[ ${getUpMark(userBridge[i], moveSuccess[i])} ")
             downSb.append("[ ${getDownMark(userBridge[i], moveSuccess[i])} ")
 
-            if (i == userBridge.size - 1) {
-                upSb.append("]")
-                downSb.append("]")
-            } else {
-                upSb.append("| ")
-                downSb.append("| ")
-            }
+            upSb.append(getCloseOrContinueMark(i, userBridge))
+            downSb.append(getCloseOrContinueMark(i, userBridge))
         }
 
         return """
@@ -62,8 +58,15 @@ class BridgeGame(private val answerBridge: List<String>) {
         """.trimIndent()
     }
 
-    fun isFinish(): Boolean {
+    fun isSuccess(): Boolean {
         return moveSuccess.size == answerBridge.size && moveSuccess.all { it == true }
+    }
+
+    private fun getCloseOrContinueMark(i: Int, userBridge: List<String>): String {
+        if (i == userBridge.lastIndex) {
+            return "]"
+        }
+        return "| "
     }
 
     private fun getUpMark(userPick: String, moveSuccess: Boolean): String {
